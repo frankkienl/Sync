@@ -315,7 +315,7 @@ extension NSManagedObject {
                 childPredicate = NSPredicate(format: "%K = %@", inverseEntityName, self)
             }
 
-            try Sync.changes(children, inEntityNamed: childEntityName, predicate: childPredicate, parent: self, parentRelationship: relationship, inContext: managedObjectContext, operations: childOperations, shouldContinueBlock: shouldContinueBlock, objectJSONBlock: objectJSONBlock)
+            try Sync.changes(children, inEntityNamed: childEntityName, predicate: childPredicate, parent: self, parentRelationship: relationship, inContext: context, operations: childOperations, shouldContinueBlock: shouldContinueBlock, objectJSONBlock: objectJSONBlock)
         } else {
             var destinationIsParentSuperEntity = false
             if let parent = parent, let destinationEntityName = relationship.destinationEntity?.name {
