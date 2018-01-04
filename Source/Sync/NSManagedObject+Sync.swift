@@ -223,7 +223,9 @@ extension NSManagedObject {
         }
 
         let inverseIsToMany = relationship.inverseRelationship?.isToMany ?? false
-        guard let managedObjectContext = managedObjectContext else { abort() }
+        //This would crash the app when managedObjectContext == nil, commented out
+        //Also, why use managedObjectContext, which can be nil, when you get non-optional context as function-param
+        //guard let managedObjectContext = managedObjectContext else { abort() }
         guard let destinationEntity = relationship.destinationEntity else { abort() }
         guard let childEntityName = destinationEntity.name else { abort() }
 
@@ -254,7 +256,7 @@ extension NSManagedObject {
                     var safeLocalObjects: [NSManagedObject]?
 
                     if deletedItems.count > 0 {
-                        safeLocalObjects = try managedObjectContext.fetch(request) as? [NSManagedObject] ?? [NSManagedObject]()
+                        safeLocalObjects = try context.fetch(request) as? [NSManagedObject] ?? [NSManagedObject]()
                         for safeObject in safeLocalObjects! {
                             let currentID = safeObject.value(forKey: safeObject.entity.sync_localPrimaryKey())!
                             for deleted in deletedItems {
@@ -282,7 +284,7 @@ extension NSManagedObject {
                         if let safeLocalObjects = safeLocalObjects {
                             objects = safeLocalObjects
                         } else {
-                            objects = try managedObjectContext.fetch(request) as? [NSManagedObject] ?? [NSManagedObject]()
+                            objects = try context.fetch(request) as? [NSManagedObject] ?? [NSManagedObject]()
                         }
                         for safeObject in objects {
                             let currentID = safeObject.value(forKey: safeObject.entity.sync_localPrimaryKey())!
@@ -304,7 +306,7 @@ extension NSManagedObject {
             if manyToMany {
                 childOperations.remove(.delete)
                 if ((childIDs as Any) as AnyObject).count > 0 {
-                    guard let entity = NSEntityDescription.entity(forEntityName: childEntityName, in: managedObjectContext) else { fatalError() }
+                    guard let entity = NSEntityDescription.entity(forEntityName: childEntityName, in: context) else { fatalError() }
                     guard let childIDsObject = childIDs as? NSObject else { fatalError() }
                     childPredicate = NSPredicate(format: "ANY %K IN %@", entity.sync_localPrimaryKey(), childIDsObject)
                 }
