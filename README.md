@@ -1,3 +1,12 @@
+**UPDATE:**
+The workaround in this fork is now available in the upstream version, since release 4.1.0. \
+Please use the original version. \
+See: \
+https://github.com/3lvis/Sync/releases/tag/4.1.0 \
+https://github.com/3lvis/Sync/pull/467 \
+https://github.com/3lvis/Sync/pull/465 
+
+
 ![Sync](https://raw.githubusercontent.com/3lvis/Sync/master/Images/logo-v3.png)
 
 **Sync** eases your everyday job of parsing a JSON response and syncing it with Core Data. **Sync** is a lightweight Swift library that uses a convention-over-configuration paradigm to facilitate your workflow.
